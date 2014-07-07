@@ -37,7 +37,7 @@ $(function() {
 
             //extract data
             var $ul = $('<ul></ul>');
-            var lag=setTimeout(function(){$.post('http://localhost:8080/FBSearch_ver0/ExtractData',
+            var lag=setTimeout(function(){$.post('http://localhost:8080/GroupTaskRecord_ver0/ExtractData',
             	{
             		"groupId":groupId
             	},
@@ -103,7 +103,7 @@ function savedata(feed, userId, groupId) {
         if (index != -1 || size != 0 || feed.message.indexOf("/") == index + 5) {
             // duplicate data still wait for deal with!
             // use feedId to deal with 
-            $.post("http://localhost:8080/FBSearch_ver0/SaveData", {
+            $.post("http://localhost:8080/GroupTaskRecord_ver0/SaveData", {
                     "userId": userId,
                     "groupId": groupId,
                     "feedId": feed.id,
