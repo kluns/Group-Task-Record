@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Welcome!</title>
+    <title>Welcome To GroupTaskRecord!</title>
     <script type="text/javascript" src="jquery-2.0.3.js"></script>
     <script type="text/javascript" src="jquery-2.0.3.min.js"></script>
     
@@ -35,24 +35,9 @@
                 // login status of the person. In this case, we're handling the situation where they 
                 // have logged in to the app.
 
-                // window.opener.postMessage('post message of status', 'https://www.facebook.com');
 
                 //post response to login.js
                 window.opener.postMessage(response, 'https://www.facebook.com');
-                //testAPI();
-                FB.api(
-                    "/me?fields=groups.fields(id).limit(2)",
-                    function(response) {
-                        if (response && !response.error) {
-                            var temp = response.groups.data;
-                            var groupId = temp[0].id;
-                            // savedata(response.id, groupId);
-                            // extractdata(groupId);
-                        }
-                    }
-                );
-
-                
 
 
             } else if (response.status === 'not_authorized') {
@@ -65,10 +50,7 @@
                 // (2) it is a bad experience to be continually prompted to login upon page load.
                 
                 FB.login();
-
-                FB.api('./me', function(res) {
-                    window.opener.postMessage(res, 'https://www.facebook.com');
-                });
+                window.opener.postMessage(res, 'https://www.facebook.com');
 
             } else {
                 // In this case, the person is not logged into Facebook, so we call the login() 
@@ -77,10 +59,7 @@
                 // dialog right after they log in to Facebook. 
                 // The same caveats as above apply to the FB.login() call here.
                 FB.login();
-
-                FB.api('./me', function(res) {
-                    window.opener.postMessage(res, 'https://www.facebook.com');
-                });
+                window.opener.postMessage(res, 'https://www.facebook.com');
             }
         });
     };
@@ -102,13 +81,6 @@
     // Here we run a very simple test of the Graph API after login is successful. 
     // This testAPI() function is only called in those cases. 
 
-    function testAPI() {
-        console.log('Welcome!  Fetching your information.... ');
-        FB.api('./me', function(response) {
-            console.log('Good to see you, ' + response.name + '.');
-        });
-
-    }
 
     function logout() {
         console.log('success trigger log out');
@@ -152,19 +124,5 @@
                
     </div>
 
-
-  <!--   <fb:login-button show-faces="true" width="200" max-rows="1" scope="user_groups,user_friends"></fb:login-button>
-    <div class="fb-send" data-href="https://www.facebook.com/MengJayYang" data-colorscheme="dark"></div>
-    <div class="fb-share-button" data-href="https://www.facebook.com/MengJayYang" data-type="button_count" data-width="200px"></div>
-    <button style="display:block;color:gray" onclick="logout()">login out</button>
-    <div id="testid"></div>
-    <div id="testmsg"></div>
-    <div id="testtime"></div>
-    <div id="testtags"></div> -->
-    
-
-
-
 </body>
-
 </html>
