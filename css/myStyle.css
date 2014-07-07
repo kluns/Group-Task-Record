@@ -1,0 +1,18 @@
+#testClick{
+	display: inline;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;    
+    padding: 10px 15px;    
+    font-size: 20px;
+    background: #777;
+    color: white;
+    cursor: pointer;
+	z-index:9990;
+	
+}
+
+
+#testMission{
+	height:400px;
+}

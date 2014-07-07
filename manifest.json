@@ -1,0 +1,43 @@
+{
+  "name": "FB Groups task",
+  "version": "1.0",
+  "manifest_version": 2,
+  "web_accessible_resources": [
+    "jquery-2.0.3.min.map"
+  ],
+  "description": "an extension used for FB groups to record assign task",
+  "browser_action": {
+    "default_icon": "camera1.png",
+    "default_title": "Login to the app now!",
+    "default_popup": "./index.html"
+  },
+  "background": {
+    "persistent": false,
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "permissions": [
+    "https://www.facebook.com/*",
+    "tabs",
+    "http://localhost/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.facebook.com/*"
+      ],
+      "run_at": "document_idle",
+      "css": [
+        "./css/myStyle.css"
+      ],
+      "js": [
+        "jquery-2.0.3.js",
+        "jquery-2.0.3.min.js",
+        "jquery.client.js",
+        "./js/execute.js",
+        "./js/login.js"
+      ]
+    }
+  ]
+}

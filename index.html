@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Welcome!</title>
+    <script type="text/javascript" src="jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="jquery-2.0.3.min.js"></script>
+    
+    <link rel="stylesheet" href="" type="text/css">
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+</head>
+
+<body style="">
+
+    <div id="fb-root"></div>
+    <script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId: '501349746642060',
+            status: true, // check login status
+            cookie: true, // enable cookies to allow the server to access the session
+            xfbml: true // parse XFBML
+        });
+
+        // Here we subscribe to the auth.authResponseChange JavaScript event. This event is fired
+        // for any authentication related change, such as login, logout or session refresh. This means that
+        // whenever someone who was previously logged out tries to log in again, the correct case below 
+        // will be handled. 
+        FB.Event.subscribe('auth.authResponseChange', function(response) {
+            // Here we specify what we do with the response anytime this event occurs. 
+            if (response.status === 'connected') {
+                // The response object is returned with a status field that lets the app know the current
+                // login status of the person. In this case, we're handling the situation where they 
+                // have logged in to the app.
+
+                // window.opener.postMessage('post message of status', 'https://www.facebook.com');
+
+                //post response to login.js
+                window.opener.postMessage(response, 'https://www.facebook.com');
+                //testAPI();
+                FB.api(
+                    "/me?fields=groups.fields(id).limit(2)",
+                    function(response) {
+                        if (response && !response.error) {
+                            var temp = response.groups.data;
+                            var groupId = temp[0].id;
+                            // savedata(response.id, groupId);
+                            // extractdata(groupId);
+                        }
+                    }
+                );
+
+                
+
+
+            } else if (response.status === 'not_authorized') {
+                // In this case, the person is logged into Facebook, but not into the app, so we call
+                // FB.login() to prompt them to do so. 
+                // In real-life usage, you wouldn't want to immediately prompt someone to login 
+                // like this, for two reasons:
+                // (1) JavaScript created popup windows are blocked by most browsers unless they 
+                // result from direct interaction from people using the app (such as a mouse click)
+                // (2) it is a bad experience to be continually prompted to login upon page load.
+                
+                FB.login();
+
+                FB.api('./me', function(res) {
+                    window.opener.postMessage(res, 'https://www.facebook.com');
+                });
+
+            } else {
+                // In this case, the person is not logged into Facebook, so we call the login() 
+                // function to prompt them to do so. Note that at this stage there is no indication
+                // of whether they are logged into the app. If they aren't then they'll see the Login
+                // dialog right after they log in to Facebook. 
+                // The same caveats as above apply to the FB.login() call here.
+                FB.login();
+
+                FB.api('./me', function(res) {
+                    window.opener.postMessage(res, 'https://www.facebook.com');
+                });
+            }
+        });
+    };
+
+    // Load the SDK asynchronously
+    (function(d) {
+        var js, id = 'facebook-jssdk',
+            ref = d.getElementsByTagName('script')[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement('script');
+        js.id = id;
+        js.async = true;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        ref.parentNode.insertBefore(js, ref);
+    }(document));
+
+    // Here we run a very simple test of the Graph API after login is successful. 
+    // This testAPI() function is only called in those cases. 
+
+    function testAPI() {
+        console.log('Welcome!  Fetching your information.... ');
+        FB.api('./me', function(response) {
+            console.log('Good to see you, ' + response.name + '.');
+        });
+
+    }
+
+    function logout() {
+        console.log('success trigger log out');
+        FB.logout(function(response) {
+            console.log(response + " success log out");
+        });
+    }
+
+    </script>
+
+    <script type="text/javascript" src="jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="jquery-2.0.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <div class="container">
+        <div class="masthead">
+                    <ul class="nav nav-pills pull-right">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                    <h3 class="muted" style="color:gray">GROUP_TASK RECORD FOR FB</h3>
+                </div>
+        <hr>
+        <div class="jumbotron">
+            <h1 style="text-align:center">GROUP_TASK RECORD</h1>
+            <p class="lead">
+                <h2>使用說明</h2>
+                <h3>
+                      以 "@人名 交代事項 - XX/XX/XXXX(死線時間格式)" 的方式使用此服務<br><br>
+                      範例 : "王小明 寫完數學第一章 - 07/15/2100"<br><br>
+                      代表 "王小明應該在7月15日的21:00完成數學第一章"<br><br>
+                </h3>
+                <br>
+            </p>
+            <div class="fb-login-button" data-max-rows="1" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false">登入</div>
+        </div>
+        <hr>
+        <div class="footer">By MENG-CHIEH,YANG @NTU </div>
+        <br>
+               
+    </div>
+
+
+  <!--   <fb:login-button show-faces="true" width="200" max-rows="1" scope="user_groups,user_friends"></fb:login-button>
+    <div class="fb-send" data-href="https://www.facebook.com/MengJayYang" data-colorscheme="dark"></div>
+    <div class="fb-share-button" data-href="https://www.facebook.com/MengJayYang" data-type="button_count" data-width="200px"></div>
+    <button style="display:block;color:gray" onclick="logout()">login out</button>
+    <div id="testid"></div>
+    <div id="testmsg"></div>
+    <div id="testtime"></div>
+    <div id="testtags"></div> -->
+    
+
+
+
+</body>
+
+</html>
